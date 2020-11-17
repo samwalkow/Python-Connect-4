@@ -10,12 +10,10 @@ whos_turn = 0b10
 winner = False
 last = 0
 column = 0
-boardheight = 6
-boardwidth = 7
 
 #generate empty board
 def generate_board(boardheight, boardwidth):
-    for i in range(8):
+    for i in range(boardwidth+1):
         if i < boardheight:
             board.append(["_"] * boardwidth)
         elif i < boardwidth:
@@ -23,25 +21,25 @@ def generate_board(boardheight, boardwidth):
         else:
             for j in range(boardwidth):
                 label.append(str(j+1))
-            board.append(label)
+    board.append(label)
 
 def start():
-    print "Let's play Connect Four!"
+    print ("Let's play Connect Four!")
     start_seq = ["3",".",".","2",".",".","1",".","."]
     for i in start_seq:
         time.sleep(0.333)
-        print i,
+        print(i)
 
 def print_board(board):
-    print "\n"
+    print()
     for row in board:
-        print " ".join(row)
-    print "\n"
+        print(" ".join(row))
+    print()
         
 def toggle(turn):
     mask = 0b11
     turn = turn ^ mask
-    print "It is player %s's turn." % turn
+    print("It is player %s's turn." % turn)
     return turn
 
 def mark_board(last, column):
@@ -54,7 +52,7 @@ def mark_board(last, column):
 def play():
     while True:
         try:
-            column = int(raw_input("Pick a column (1-7): ")) - 1
+            column = int(input("Pick a column (1-7): ")) - 1
             if column >= 1 and column <= boardwidth:
                 for i in range(6):
                     if board[i][column] == "_":
@@ -94,6 +92,8 @@ def check_winner(board, player):
     return False
     
 start()
+boardheight = int(input("Enter the board width: "))
+boardwidth = int(input("Enter the board height: "))
 generate_board(boardheight, boardwidth)
 print_board(board)
 
@@ -103,7 +103,7 @@ while winner == False:
     winner = check_winner(board, str(whos_turn))
     
 if winner == True:
-    print "Player " + str(whos_turn) + " wins!"
+    print("Player " + str(whos_turn) + " wins!")
 
 
 
