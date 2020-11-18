@@ -3,6 +3,7 @@
 #qpy:console
 
 import time
+from time import sleep
 
 board = [] 
 label = []
@@ -10,6 +11,7 @@ whos_turn = 0b10
 winner = False
 last = 0
 column = 0
+game_tree = []
 
 #generate empty board
 def generate_board(boardheight, boardwidth):
@@ -52,22 +54,25 @@ def mark_board(last, column):
 def play():
     while True:
         try:
-            column = int(input("Pick a column (1-7): ")) - 1
-            if column >= 1 and column <= boardwidth:
-                for i in range(6):
+            column = int(input("Pick a column (1-7): ")) -1
+            print(column, type(column))
+            if column >= 0 and column <= boardwidth:
+                for i in range(boardwidth):
                     if board[i][column] == "_":
                         last = i
                 mark_board(last, column)
             else:
-                raise "You picked a column outside the board!"
+                print("You picked a column outside the board!")
             break
         except:
             print("Not a valid number! Please try again...")
 
-def check_winner(board, player):
+def check_winner(board, player:str, boardheight:int, boardwidth:int):
     #check horizontal spaces
     for y in range(boardheight):
         for x in range(boardwidth - 3):
+            print("the height:", y, "the width:", x)
+            print(player)
             if board[x][y] == player and board[x+1][y] == player and board[x+2][y] == player and board[x+3][y] == player:
                 return True
 
@@ -100,7 +105,8 @@ print_board(board)
 while winner == False:
     whos_turn = toggle(whos_turn)
     play()
-    winner = check_winner(board, str(whos_turn))
+    time.sleep(0.333)
+    winner = check_winner(board, str(whos_turn), boardheight, boardwidth)
     
 if winner == True:
     print("Player " + str(whos_turn) + " wins!")
